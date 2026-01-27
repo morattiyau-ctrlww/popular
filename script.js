@@ -162,50 +162,74 @@ class TrendingTopics {
             console.error('Error fetching trending topics:', error);
         }
         
-        // Enhanced fallback with more specific and current topics
-        const currentHour = new Date().getHours();
+        // Balanced trending topics - not too generic, not too specific
         const timeVariations = [
-            `${Math.floor(Math.random() * 3) + 1} hour${Math.floor(Math.random() * 3) + 1 > 1 ? 's' : ''} ago`,
-            `${Math.floor(Math.random() * 8) + 2} hours ago`,
+            `${Math.floor(Math.random() * 3) + 1} hours ago`,
+            `${Math.floor(Math.random() * 6) + 2} hours ago`,
             `${Math.floor(Math.random() * 12) + 1} hours ago`
         ];
         
         return [
-            { title: "DeepMind's new AI model achieves breakthrough in protein folding predictions", source: "Nature", time: timeVariations[0], url: "#" },
-            { title: "Major data breach exposes 50 million user accounts across multiple platforms", source: "TechCrunch", time: timeVariations[1], url: "#" },
-            { title: "Federal Reserve announces unexpected interest rate decision", source: "Reuters", time: timeVariations[0], url: "#" },
-            { title: "SpaceX successfully launches 60 more Starlink satellites", source: "Space News", time: timeVariations[2], url: "#" },
-            { title: "New COVID-19 variant shows increased transmissibility, WHO reports", source: "CNN Health", time: timeVariations[1], url: "#" },
-            { title: "Tesla stock surges 15% after record quarterly deliveries announced", source: "Bloomberg", time: timeVariations[0], url: "#" },
-            { title: "Major earthquake strikes Pacific region, tsunami warning issued", source: "BBC News", time: timeVariations[2], url: "#" },
-            { title: "Apple announces surprise product launch event for next week", source: "The Verge", time: timeVariations[1], url: "#" },
-            { title: "Climate activists block major highway in protest of oil pipeline", source: "Guardian", time: timeVariations[0], url: "#" },
-            { title: "Cryptocurrency market cap reaches new all-time high of $3 trillion", source: "CoinDesk", time: timeVariations[2], url: "#" },
-            { title: "Meta faces $5 billion fine over privacy violations in Europe", source: "Wall Street Journal", time: timeVariations[1], url: "#" },
-            { title: "Breakthrough gene therapy shows promise for treating rare diseases", source: "Science Daily", time: timeVariations[0], url: "#" }
+            { title: "AI technology advances in healthcare applications", source: "Tech News", time: timeVariations[0], url: "#" },
+            { title: "Global markets react to economic policy changes", source: "Financial Times", time: timeVariations[1], url: "#" },
+            { title: "Space exploration mission achieves new milestone", source: "Space News", time: timeVariations[2], url: "#" },
+            { title: "Cybersecurity concerns rise amid digital transformation", source: "Reuters", time: timeVariations[0], url: "#" },
+            { title: "Climate change initiatives gain momentum worldwide", source: "BBC News", time: timeVariations[1], url: "#" },
+            { title: "Electric vehicle adoption reaches record levels", source: "Bloomberg", time: timeVariations[2], url: "#" },
+            { title: "Social media platforms update privacy policies", source: "The Verge", time: timeVariations[0], url: "#" },
+            { title: "Renewable energy investments surge globally", source: "Guardian", time: timeVariations[1], url: "#" },
+            { title: "Cryptocurrency regulations evolve across major economies", source: "CoinDesk", time: timeVariations[2], url: "#" },
+            { title: "Healthcare innovation shows promising results", source: "Medical News", time: timeVariations[0], url: "#" },
+            { title: "Education technology transforms learning experiences", source: "EdTech Today", time: timeVariations[1], url: "#" },
+            { title: "Entertainment industry adapts to streaming trends", source: "Variety", time: timeVariations[2], url: "#" }
         ];
     }
 
     async fetchFromNewsAPI() {
         try {
-            // Using a free news aggregator API
-            const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://rss.cnn.com/rss/edition.rss&count=5');
-            const data = await response.json();
+            // Using multiple RSS feeds for broader coverage
+            const feeds = [
+                'https://api.rss2json.com/v1/api.json?rss_url=https://rss.cnn.com/rss/edition.rss&count=3',
+                'https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/technology/rss.xml&count=3'
+            ];
             
-            if (data.status === 'ok' && data.items) {
-                return data.items.map(item => ({
-                    title: item.title,
-                    source: 'CNN',
-                    time: this.timeAgo(new Date(item.pubDate).getTime() / 1000),
-                    url: item.link,
-                    publishedAt: item.pubDate
-                }));
-            }
-            return null;
+            const responses = await Promise.all(feeds.map(url => 
+                fetch(url).then(r => r.json()).catch(() => null)
+            ));
+            
+            let allNews = [];
+            responses.forEach(data => {
+                if (data && data.status === 'ok' && data.items) {
+                    const news = data.items.map(item => ({
+                        title: this.simplifyTitle(item.title),
+                        source: data.feed.title.includes('BBC') ? 'BBC Tech' : 'CNN',
+                        time: this.timeAgo(new Date(item.pubDate).getTime() / 1000),
+                        url: item.link,
+                        publishedAt: item.pubDate
+                    }));
+                    allNews = allNews.concat(news);
+                }
+            });
+            
+            return allNews.length > 0 ? allNews : null;
         } catch (error) {
             console.error('News API error:', error);
             return null;
         }
+    }
+
+    simplifyTitle(title) {
+        // Make titles more general and trending-focused
+        if (title.length > 80) {
+            title = title.substring(0, 77) + '...';
+        }
+        
+        // Remove very specific details but keep the general topic
+        title = title.replace(/\d{4}-\d{2}-\d{2}/, '');
+        title = title.replace(/\$[\d,]+(\.\d+)?[BMK]?/, 'significant amount');
+        title = title.replace(/\d+%/, 'major percentage');
+        
+        return title.trim();
     }
 
     async fetchFromHackerNewsTop() {
@@ -235,18 +259,33 @@ class TrendingTopics {
 
     async fetchTrendingFromGitHub() {
         try {
-            // Get trending repositories (tech news)
+            // Get trending repositories but make titles more general
             const response = await fetch('https://api.github.com/search/repositories?q=created:>2025-01-01&sort=stars&order=desc&per_page=3');
             const data = await response.json();
             
             if (data.items) {
-                return data.items.map(repo => ({
-                    title: `${repo.name}: ${repo.description || 'New trending repository'}`,
-                    source: 'GitHub Trending',
-                    time: this.timeAgo(new Date(repo.created_at).getTime() / 1000),
-                    url: repo.html_url,
-                    publishedAt: repo.created_at
-                }));
+                return data.items.map(repo => {
+                    let title = repo.description || repo.name;
+                    
+                    // Make GitHub trends more general
+                    if (title.includes('AI') || title.includes('machine learning')) {
+                        title = 'New AI development tools gain popularity';
+                    } else if (title.includes('web') || title.includes('frontend')) {
+                        title = 'Web development frameworks trending';
+                    } else if (title.includes('mobile') || title.includes('app')) {
+                        title = 'Mobile development tools rise in popularity';
+                    } else {
+                        title = `${repo.name}: Popular new development tool`;
+                    }
+                    
+                    return {
+                        title: title,
+                        source: 'GitHub Trending',
+                        time: this.timeAgo(new Date(repo.created_at).getTime() / 1000),
+                        url: repo.html_url,
+                        publishedAt: repo.created_at
+                    };
+                });
             }
             return null;
         } catch (error) {
