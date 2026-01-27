@@ -34,29 +34,36 @@ class TrendingTopics {
 
     async loadNewsAPI() {
         try {
-            // Try to get real viral/trending topics from multiple sources
+            // Prioritize eye-catching viral topics over generic search terms
+            const viralTopics = await this.getMostHitTopics();
+            
+            // Try to get some real viral content to mix in
             const viralPromises = [
                 this.fetchViralFromReddit(),
-                this.fetchTrendingFromTwitter(),
                 this.fetchViralFromTikTok(),
-                this.fetchGoogleTrends()
+                this.fetchTrendingFromTwitter()
             ];
             
             const results = await Promise.allSettled(viralPromises);
-            let allViral = [];
+            let realViral = [];
             
             results.forEach(result => {
                 if (result.status === 'fulfilled' && result.value) {
-                    allViral = allViral.concat(result.value);
+                    realViral = realViral.concat(result.value.slice(0, 3)); // Take only top 3 from each
                 }
             });
             
-            if (allViral.length === 0) {
-                // Fallback to current most hit topics
-                allViral = await this.getMostHitTopics();
+            // Mix viral topics with some real content
+            let allViral = [...viralTopics];
+            if (realViral.length > 0) {
+                // Insert real viral content at random positions
+                realViral.forEach((item, index) => {
+                    const insertPos = Math.floor(Math.random() * (allViral.length - 5)) + 2;
+                    allViral.splice(insertPos, 0, item);
+                });
             }
             
-            // Sort by popularity/engagement and take top 15
+            // Sort by engagement and take top 15
             allViral.sort((a, b) => (b.engagement || 0) - (a.engagement || 0));
             const topViral = allViral.slice(0, 15);
             
@@ -159,19 +166,6 @@ class TrendingTopics {
                 { title: "This Life Hack Will Save You Hours Every Day", source: "TikTok Tips", time: "1 hour ago", engagement: 12000000 },
                 { title: "Restaurant Worker Exposes What Really Happens in Kitchen", source: "TikTok Expose", time: "2 hours ago", engagement: 15000000 },
                 { title: "This Pet's Reaction to Owner Coming Home Melts Hearts", source: "TikTok Wholesome", time: "3 hours ago", engagement: 25000000 }
-            ];
-        } catch (error) {
-            return null;
-        }
-    }
-
-    async fetchGoogleTrends() {
-        try {
-            // Simulate Google Trends data based on current popular searches
-            return [
-                { title: "YouTube most searched term globally", source: "Google Trends", time: "Updated hourly", engagement: 100000000 },
-                { title: "WhatsApp Web searches surge", source: "Google Trends", time: "Updated hourly", engagement: 80000000 },
-                { title: "Amazon trending in searches", source: "Google Trends", time: "Updated hourly", engagement: 70000000 }
             ];
         } catch (error) {
             return null;
