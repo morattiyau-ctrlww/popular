@@ -273,6 +273,10 @@ class TrendingTopics {
             console.error('Error fetching trending topics:', error);
         }
         
+        // Return empty array if no trending topics found
+        return [];
+    }
+
     async getMostHitTopics() {
         // Eye-catching, clickbait-style topics that get massive engagement
         const timeVariations = [
@@ -298,7 +302,6 @@ class TrendingTopics {
             { title: "Woman's Before/After Photo Shocks Millions - Here's Her Secret", source: "Transformation", time: timeVariations[1], engagement: 13000000, url: "#" },
             { title: "This 5-Second Test Reveals Your True Personality (Try It Now)", source: "Viral Quiz", time: timeVariations[2], engagement: 17000000, url: "#" }
         ];
-    }
     }
 
     async fetchFromNewsAPI() {
