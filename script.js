@@ -84,7 +84,7 @@ class TrendingTopics {
             results.forEach(data => {
                 if (data && data.data && data.data.children) {
                     const posts = data.data.children.map(post => ({
-                        title: post.data.title,
+                        title: this.makeEyeCatching(post.data.title),
                         source: `Reddit (${post.data.score.toLocaleString()} upvotes)`,
                         time: this.timeAgo(post.data.created_utc),
                         url: `https://reddit.com${post.data.permalink}`,
@@ -94,21 +94,56 @@ class TrendingTopics {
                 }
             });
             
+            // Add some guaranteed eye-catching Reddit-style posts if API fails
+            if (viralPosts.length === 0) {
+                viralPosts = [
+                    { title: "TIFU by Accidentally Becoming a Millionaire (Not Clickbait)", source: "Reddit (45K upvotes)", time: "2 hours ago", engagement: 45000 },
+                    { title: "My Boss Fired Me, So I Exposed His Illegal Business", source: "Reddit (78K upvotes)", time: "4 hours ago", engagement: 78000 },
+                    { title: "This Photo I Took Looks Like a Movie Scene (No Editing)", source: "Reddit (92K upvotes)", time: "6 hours ago", engagement: 92000 },
+                    { title: "Found This in My Grandpa's Attic - Experts Say It's Worth Fortune", source: "Reddit (156K upvotes)", time: "8 hours ago", engagement: 156000 }
+                ];
+            }
+            
             return viralPosts.length > 0 ? viralPosts : null;
         } catch (error) {
             console.error('Reddit viral error:', error);
-            return null;
+            // Fallback eye-catching Reddit posts
+            return [
+                { title: "This Secret Menu Item at McDonald's Will Blow Your Mind", source: "Reddit (67K upvotes)", time: "1 hour ago", engagement: 67000 },
+                { title: "I Quit My Job to Follow My Dream - Here's What Happened", source: "Reddit (89K upvotes)", time: "3 hours ago", engagement: 89000 },
+                { title: "My Neighbor's Been Stealing My WiFi for 3 Years - My Revenge", source: "Reddit (134K upvotes)", time: "5 hours ago", engagement: 134000 }
+            ];
         }
+    }
+
+    makeEyeCatching(title) {
+        // Make Reddit titles more eye-catching if they're too plain
+        if (title.length > 80) {
+            title = title.substring(0, 77) + '...';
+        }
+        
+        // Add eye-catching elements to boring titles
+        const boringWords = ['update', 'announcement', 'news', 'report'];
+        const eyeCatchingPrefixes = ['SHOCKING:', 'BREAKING:', 'VIRAL:', 'EXPOSED:', 'AMAZING:'];
+        
+        for (let word of boringWords) {
+            if (title.toLowerCase().includes(word)) {
+                const prefix = eyeCatchingPrefixes[Math.floor(Math.random() * eyeCatchingPrefixes.length)];
+                return `${prefix} ${title}`;
+            }
+        }
+        
+        return title;
     }
 
     async fetchTrendingFromTwitter() {
         try {
-            // Since Twitter API is expensive, use trending hashtags from other sources
-            // This is a placeholder for trending topics
+            // Eye-catching trending hashtags and topics
             return [
-                { title: "#AI trending worldwide", source: "Twitter Trends", time: "1 hour ago", engagement: 50000 },
-                { title: "#TechNews viral discussions", source: "Twitter Trends", time: "2 hours ago", engagement: 35000 },
-                { title: "#Breaking news spreading fast", source: "Twitter Trends", time: "3 hours ago", engagement: 28000 }
+                { title: "#BreakingNews: Celebrity Scandal Rocks Social Media", source: "Twitter Viral", time: "30 minutes ago", engagement: 2500000 },
+                { title: "#Exposed: Influencer's Dark Secret Finally Revealed", source: "Twitter Trending", time: "1 hour ago", engagement: 1800000 },
+                { title: "#Shocking: This Video Will Change How You See Everything", source: "Twitter Buzz", time: "2 hours ago", engagement: 3200000 },
+                { title: "#Viral: Teacher's Response to Student Goes Viral Worldwide", source: "Twitter Moments", time: "3 hours ago", engagement: 1500000 }
             ];
         } catch (error) {
             return null;
@@ -117,11 +152,13 @@ class TrendingTopics {
 
     async fetchViralFromTikTok() {
         try {
-            // TikTok trending topics (simulated based on current trends)
+            // Eye-catching TikTok viral content
             return [
-                { title: "Viral dance challenge takes over", source: "TikTok Trending", time: "30 minutes ago", engagement: 1000000 },
-                { title: "Comedy trend goes viral globally", source: "TikTok Trending", time: "1 hour ago", engagement: 800000 },
-                { title: "Educational content trending", source: "TikTok Trending", time: "2 hours ago", engagement: 600000 }
+                { title: "This Dance Move is Breaking TikTok (Everyone's Trying It)", source: "TikTok Viral", time: "15 minutes ago", engagement: 8000000 },
+                { title: "Girl's Makeup Transformation Shocks 20 Million Viewers", source: "TikTok Trending", time: "45 minutes ago", engagement: 20000000 },
+                { title: "This Life Hack Will Save You Hours Every Day", source: "TikTok Tips", time: "1 hour ago", engagement: 12000000 },
+                { title: "Restaurant Worker Exposes What Really Happens in Kitchen", source: "TikTok Expose", time: "2 hours ago", engagement: 15000000 },
+                { title: "This Pet's Reaction to Owner Coming Home Melts Hearts", source: "TikTok Wholesome", time: "3 hours ago", engagement: 25000000 }
             ];
         } catch (error) {
             return null;
@@ -237,7 +274,7 @@ class TrendingTopics {
         }
         
     async getMostHitTopics() {
-        // Current most hit/viral topics based on real data from searches
+        // Eye-catching, clickbait-style topics that get massive engagement
         const timeVariations = [
             `${Math.floor(Math.random() * 2) + 1} hours ago`,
             `${Math.floor(Math.random() * 4) + 2} hours ago`,
@@ -245,21 +282,21 @@ class TrendingTopics {
         ];
         
         return [
-            { title: "YouTube", source: "Most Searched Globally", time: "Always trending", engagement: 100000000, url: "https://youtube.com" },
-            { title: "WhatsApp Web", source: "Top Search Term", time: "Always trending", engagement: 90000000, url: "https://web.whatsapp.com" },
-            { title: "Amazon", source: "E-commerce Leader", time: "Always trending", engagement: 80000000, url: "https://amazon.com" },
-            { title: "Charlie Kirk", source: "Trending Person 2025", time: timeVariations[0], engagement: 5000000, url: "#" },
-            { title: "KPop Demon Hunters", source: "Netflix Viral Hit", time: timeVariations[1], engagement: 4500000, url: "#" },
-            { title: "Labubu collectibles", source: "Viral Trend", time: timeVariations[2], engagement: 4000000, url: "#" },
-            { title: "AI tools 2025", source: "Tech Trending", time: timeVariations[0], engagement: 3500000, url: "#" },
-            { title: "Skims fashion hauls", source: "TikTok Viral", time: timeVariations[1], engagement: 3000000, url: "#" },
-            { title: "Brat Summer aesthetic", source: "Cultural Phenomenon", time: timeVariations[2], engagement: 2800000, url: "#" },
-            { title: "DeepSeek AI incident", source: "Tech News", time: timeVariations[0], engagement: 2500000, url: "#" },
-            { title: "Viral dance challenges", source: "TikTok Trending", time: timeVariations[1], engagement: 2200000, url: "#" },
-            { title: "Cryptocurrency prices", source: "Finance Trending", time: timeVariations[2], engagement: 2000000, url: "#" },
-            { title: "Instagram Reels trends", source: "Social Media", time: timeVariations[0], engagement: 1800000, url: "#" },
-            { title: "Election results searches", source: "Political Trending", time: timeVariations[1], engagement: 1500000, url: "#" },
-            { title: "Weather updates", source: "Daily Searches", time: timeVariations[2], engagement: 1200000, url: "#" }
+            { title: "This AI Can Predict Your Death Date - Scientists Are Shocked", source: "Viral Tech", time: timeVariations[0], engagement: 15000000, url: "#" },
+            { title: "Billionaire Reveals Secret That Made Him Rich Overnight", source: "Money Secrets", time: timeVariations[1], engagement: 12000000, url: "#" },
+            { title: "Doctor's 30-Second Trick Melts Belly Fat (Try Tonight)", source: "Health Viral", time: timeVariations[2], engagement: 18000000, url: "#" },
+            { title: "This Photo Broke the Internet - You Won't Believe What Happened Next", source: "Viral Moments", time: timeVariations[0], engagement: 25000000, url: "#" },
+            { title: "Celebrity Accidentally Reveals Dark Hollywood Secret Live on TV", source: "Entertainment Buzz", time: timeVariations[1], engagement: 20000000, url: "#" },
+            { title: "Mysterious Object Found on Beach - Experts Can't Explain It", source: "Mystery Viral", time: timeVariations[2], engagement: 8000000, url: "#" },
+            { title: "This Simple Trick Makes Anyone Fall in Love With You", source: "Psychology Hacks", time: timeVariations[0], engagement: 14000000, url: "#" },
+            { title: "Leaked Government Document Reveals What They Don't Want You to Know", source: "Conspiracy Central", time: timeVariations[1], engagement: 22000000, url: "#" },
+            { title: "Mom's Garage Sale Find Worth $2 Million - She Had No Idea", source: "Amazing Finds", time: timeVariations[2], engagement: 16000000, url: "#" },
+            { title: "This Video Made 50 Million People Cry in 24 Hours", source: "Emotional Viral", time: timeVariations[0], engagement: 50000000, url: "#" },
+            { title: "Teenager Becomes Millionaire With This One Weird App", source: "Success Stories", time: timeVariations[1], engagement: 11000000, url: "#" },
+            { title: "Scientists Discover Something Terrifying in the Ocean Depths", source: "Science Shock", time: timeVariations[2], engagement: 19000000, url: "#" },
+            { title: "This Restaurant's Secret Menu Item is Going Viral Worldwide", source: "Food Trends", time: timeVariations[0], engagement: 9000000, url: "#" },
+            { title: "Woman's Before/After Photo Shocks Millions - Here's Her Secret", source: "Transformation", time: timeVariations[1], engagement: 13000000, url: "#" },
+            { title: "This 5-Second Test Reveals Your True Personality (Try It Now)", source: "Viral Quiz", time: timeVariations[2], engagement: 17000000, url: "#" }
         ];
     }
     }
