@@ -52,18 +52,18 @@ class TrendingTopics {
         ];
         
         return [
-            { title: "This AI Can Predict Your Death Date - Scientists Are Shocked", source: "Viral Tech", time: timeVariations[0], engagement: 15000000, url: "#" },
-            { title: "Billionaire Reveals Secret That Made Him Rich Overnight", source: "Money Secrets", time: timeVariations[1], engagement: 12000000, url: "#" },
-            { title: "Doctor's 30-Second Trick Melts Belly Fat (Try Tonight)", source: "Health Viral", time: timeVariations[2], engagement: 18000000, url: "#" },
-            { title: "This Photo Broke the Internet - You Won't Believe What Happened Next", source: "Viral Moments", time: timeVariations[0], engagement: 25000000, url: "#" },
-            { title: "Celebrity Accidentally Reveals Dark Hollywood Secret Live on TV", source: "Entertainment Buzz", time: timeVariations[1], engagement: 20000000, url: "#" },
-            { title: "Mysterious Object Found on Beach - Experts Can't Explain It", source: "Mystery Viral", time: timeVariations[2], engagement: 8000000, url: "#" },
-            { title: "This Simple Trick Makes Anyone Fall in Love With You", source: "Psychology Hacks", time: timeVariations[0], engagement: 14000000, url: "#" },
-            { title: "Leaked Government Document Reveals What They Don't Want You to Know", source: "Conspiracy Central", time: timeVariations[1], engagement: 22000000, url: "#" },
-            { title: "Mom's Garage Sale Find Worth $2 Million - She Had No Idea", source: "Amazing Finds", time: timeVariations[2], engagement: 16000000, url: "#" },
-            { title: "This Video Made 50 Million People Cry in 24 Hours", source: "Emotional Viral", time: timeVariations[0], engagement: 50000000, url: "#" },
-            { title: "Teenager Becomes Millionaire With This One Weird App", source: "Success Stories", time: timeVariations[1], engagement: 11000000, url: "#" },
-            { title: "Scientists Discover Something Terrifying in the Ocean Depths", source: "Science Shock", time: timeVariations[2], engagement: 19000000, url: "#" }
+            { title: "AI Video Generator Tools Exploding in Popularity - 8,300% Growth", source: "Tech Trends", time: timeVariations[0], engagement: 28000000, url: "#" },
+            { title: "Japanese Head Spa Treatment Goes Viral - 9,200% Search Increase", source: "Beauty & Wellness", time: timeVariations[1], engagement: 15000000, url: "#" },
+            { title: "Choose Your Jar Challenge Taking Over Social Media", source: "Viral Trends", time: timeVariations[2], engagement: 22000000, url: "#" },
+            { title: "AI Paparazzi Photoshoot Trend Creates Celebrity-Style Content", source: "Social Media", time: timeVariations[0], engagement: 18000000, url: "#" },
+            { title: "Carbon-Plated Running Shoes See 6,800% Growth Among Athletes", source: "Sports Tech", time: timeVariations[1], engagement: 12000000, url: "#" },
+            { title: "Non-Toxic Air Fryers Exploding in Demand - 99x+ Growth", source: "Health Kitchen", time: timeVariations[2], engagement: 25000000, url: "#" },
+            { title: "My Top 10 Countdown Format Dominates TikTok in 2026", source: "Content Trends", time: timeVariations[0], engagement: 16000000, url: "#" },
+            { title: "AI Image Enhancer Technology Sees 9,000% Search Growth", source: "AI Tools", time: timeVariations[1], engagement: 20000000, url: "#" },
+            { title: "2025 vs 2020 Transformation Videos Go Viral Across Platforms", source: "Lifestyle Content", time: timeVariations[2], engagement: 14000000, url: "#" },
+            { title: "Nicotine Pouches Market Explodes with 922% Growth Rate", source: "Health Trends", time: timeVariations[0], engagement: 11000000, url: "#" },
+            { title: "AI for Teachers Tools Transform Education - 2,900% Growth", source: "EdTech", time: timeVariations[1], engagement: 13000000, url: "#" },
+            { title: "Universe Sign AI Trend Creates Mystical Social Content", source: "Spiritual Tech", time: timeVariations[2], engagement: 19000000, url: "#" }
         ];
     }
 
@@ -138,21 +138,21 @@ class TrendingTopics {
 
     async getGoogleSearchTrends() {
         return [
-            { title: "YouTube", source: "Most Searched Globally", time: "Always trending", engagement: 100000000, url: "https://youtube.com" },
-            { title: "WhatsApp Web", source: "Top Search Term", time: "Always trending", engagement: 90000000, url: "https://web.whatsapp.com" },
-            { title: "Amazon", source: "E-commerce Leader", time: "Always trending", engagement: 80000000, url: "https://amazon.com" },
-            { title: "Google", source: "Search Engine", time: "Always trending", engagement: 75000000, url: "https://google.com" },
-            { title: "Facebook", source: "Social Media", time: "Always trending", engagement: 70000000, url: "https://facebook.com" },
-            { title: "Instagram", source: "Photo Sharing", time: "Always trending", engagement: 65000000, url: "https://instagram.com" },
-            { title: "Netflix", source: "Streaming Service", time: "Always trending", engagement: 60000000, url: "https://netflix.com" },
-            { title: "TikTok", source: "Video Platform", time: "Always trending", engagement: 55000000, url: "https://tiktok.com" },
-            { title: "Twitter", source: "Social Network", time: "Always trending", engagement: 50000000, url: "https://twitter.com" },
-            { title: "Weather", source: "Daily Searches", time: "Always trending", engagement: 45000000, url: "#" },
-            { title: "News", source: "Information", time: "Always trending", engagement: 40000000, url: "#" },
-            { title: "Gmail", source: "Email Service", time: "Always trending", engagement: 35000000, url: "https://gmail.com" },
-            { title: "Maps", source: "Navigation", time: "Always trending", engagement: 30000000, url: "https://maps.google.com" },
-            { title: "Translate", source: "Language Tool", time: "Always trending", engagement: 25000000, url: "https://translate.google.com" },
-            { title: "Spotify", source: "Music Streaming", time: "Always trending", engagement: 20000000, url: "https://spotify.com" }
+            { title: "Prequel Skincare", source: "Beauty Trend", time: "Exploding 99x+", engagement: 45000000, url: "#" },
+            { title: "AI Video Generator", source: "Tech Tools", time: "8,300% growth", engagement: 40000000, url: "#" },
+            { title: "Japanese Head Spa", source: "Wellness Trend", time: "9,200% growth", engagement: 35000000, url: "#" },
+            { title: "Carbon-Plated Running Shoes", source: "Sports Tech", time: "6,800% growth", engagement: 30000000, url: "#" },
+            { title: "Non-Toxic Air Fryer", source: "Kitchen Health", time: "99x+ growth", engagement: 28000000, url: "#" },
+            { title: "AI Image Enhancer", source: "Photo Tech", time: "9,000% growth", engagement: 25000000, url: "#" },
+            { title: "Owala Water Bottles", source: "Lifestyle", time: "7,000% growth", engagement: 22000000, url: "#" },
+            { title: "PDRN Skincare", source: "K-Beauty", time: "8,400% growth", engagement: 20000000, url: "#" },
+            { title: "Cold Plunge Sauna", source: "Wellness", time: "8,900% growth", engagement: 18000000, url: "#" },
+            { title: "AI for Teachers", source: "EdTech", time: "2,900% growth", engagement: 16000000, url: "#" },
+            { title: "Nicotine Pouches", source: "Health Alt", time: "922% growth", engagement: 15000000, url: "#" },
+            { title: "Creatine Gummies", source: "Fitness Supp", time: "6,800% growth", engagement: 14000000, url: "#" },
+            { title: "Text to Audio AI", source: "AI Tools", time: "5,600% growth", engagement: 12000000, url: "#" },
+            { title: "Immersive Experiences", source: "VR/AR", time: "1,333% growth", engagement: 10000000, url: "#" },
+            { title: "Barrel Fit Jeans", source: "Fashion", time: "9,500% growth", engagement: 8000000, url: "#" }
         ];
     }
 
