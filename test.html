@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+    <div id="test">Testing JavaScript...</div>
+    <script>
+        console.log('JavaScript is loading...');
+        
+        // Test if the script loads without errors
+        try {
+            document.getElementById('test').innerHTML = 'JavaScript loaded successfully!';
+            console.log('Basic JavaScript works');
+        } catch (error) {
+            console.error('JavaScript error:', error);
+            document.getElementById('test').innerHTML = 'JavaScript error: ' + error.message;
+        }
+    </script>
+    
+    <script src="script.js"></script>
+    
+    <script>
+        // Test if our class loads
+        setTimeout(() => {
+            try {
+                console.log('Testing TrendingTopics class...');
+                if (typeof TrendingTopics !== 'undefined') {
+                    console.log('TrendingTopics class is available');
+                    document.getElementById('test').innerHTML += '<br>TrendingTopics class loaded!';
+                } else {
+                    console.error('TrendingTopics class not found');
+                    document.getElementById('test').innerHTML += '<br>TrendingTopics class NOT found!';
+                }
+            } catch (error) {
+                console.error('Error testing class:', error);
+                document.getElementById('test').innerHTML += '<br>Error: ' + error.message;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
