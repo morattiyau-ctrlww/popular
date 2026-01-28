@@ -437,6 +437,7 @@ class TrendingTopics {
         }
     }
 
+    async loadHackerNews() {
         try {
             // Hacker News has a free API
             const topStoriesResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
